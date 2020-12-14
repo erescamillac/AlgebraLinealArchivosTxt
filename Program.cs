@@ -1688,6 +1688,8 @@ namespace AlgebraLinealArchivosTxt
         public static void Case2RestaMatrices() {
             InputReader iReader = new InputReader();
             Matrix matrixA, matrixB, matrixC;
+            FilesUtil filesU = new FilesUtil();
+            DateTime now = DateTime.Now;
             (int mRows, int nCols) bSize;
             uint numRenglones, numCols;
             char continueP = 'n';
@@ -1723,6 +1725,17 @@ namespace AlgebraLinealArchivosTxt
 
                 Console.WriteLine("A - B = A + (-B) = A + ((-1)*B) = \n{0}", matrixC);
 
+                try {
+                    filesU.WriteLine($"Resultado de la operación RESTA entre Matrices. Registrado [{now}]");
+                    filesU.WriteLine($"Matriz A: \n{matrixA}");
+                    filesU.WriteLine($"Matriz B: \n{matrixB}");
+                    filesU.WriteLine($"A - B = \n{matrixC}");
+                    filesU.WriteLine("---------------------------------------------");
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
                 Console.WriteLine("\n\t¿Desea realizar otra resta de Matrices? [y/n]: ");
                 continueP = Console.ReadKey().KeyChar;
             } while (Char.ToLower(continueP).Equals('y'));
@@ -1732,6 +1745,8 @@ namespace AlgebraLinealArchivosTxt
         public static void Case3MultiplicacionM() {
             InputReader iReader = new InputReader();
             Matrix matrixA, matrixB, matrixC;
+            FilesUtil filesU = new FilesUtil();
+            DateTime now = DateTime.Now;
             (int mRows, int nCols) sizeA, sizeB;
             char continueP = 'n';
             uint numRenglA, numRenglB, numColsA, numColsB;
@@ -1774,6 +1789,17 @@ namespace AlgebraLinealArchivosTxt
                 Console.WriteLine("Matriz B: \n{0}", matrixB);
                 Console.WriteLine("AB = \n{0}", matrixC);
 
+                //--Registro en Archivo
+                try {
+                    filesU.WriteLine($"Resultado de MULTIPLICACIÓN DE MATRICES. Registrado [{now}].");
+                    filesU.WriteLine($"Matriz A: \n{matrixA}");
+                    filesU.WriteLine($"Matriz B: \n{matrixB}");
+                    filesU.WriteLine($"AB = \n{matrixC}");
+                    filesU.WriteLine("--------------------------------------------------------------");
+                } catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
                 Console.WriteLine("\n\t¿Desea realizar otra multiplicación de matrices? [y/n]: ");
                 continueP = Console.ReadKey().KeyChar;
             } while (Char.ToLower(continueP).Equals('y'));
@@ -1782,12 +1808,19 @@ namespace AlgebraLinealArchivosTxt
         public static void Case4DivisionM() {
             InputReader iReader = new InputReader();
             Matrix matrixA, matrixB, matrixC, inverseB;
+            FilesUtil filesU = new FilesUtil();
+            DateTime now = DateTime.Now;
             uint numRenglA, numColsA, tamanioCuadrada;
             (int mRows, int nCols) sizeA, sizeB;
             char continueP = 'n';
             do {
                 try {
                     Console.Clear();
+                    try {
+                        filesU.WriteLine($"Intento de DIVISIÓN entre matrices. Registrado [{now}].");
+                    } catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
                     Console.WriteLine("División de Matrices.");
                     Console.WriteLine("NOTA.- La 'División' de matrices NO EXISTE per se, es decir dadas 2 matrices A y B");
                     Console.WriteLine("la 'operación' A/B NO ESTA DEFINIDA, sin embargo es posible calcular el producto AB^-1,");
@@ -1822,6 +1855,13 @@ namespace AlgebraLinealArchivosTxt
                     Console.WriteLine("Matriz A: \n{0}", matrixA);
                     Console.WriteLine("Matriz B: \n{0}", matrixB);
 
+                    try {
+                        filesU.WriteLine($"Matriz A: \n{matrixA}");
+                        filesU.WriteLine($"Matriz B: \n{matrixB}");
+                    } catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
+
                     Console.WriteLine("Intentando determinar la INVERSA de B...");
                     inverseB = matrixB.Inverse();
 
@@ -1832,11 +1872,29 @@ namespace AlgebraLinealArchivosTxt
 
                     Console.WriteLine("Resultado de la 'DIVISIÓN' (AB^-1): \n{0}", matrixC);
 
+                    try {
+                        filesU.WriteLine("DIVISIÓN entre matrices EXITOSA.");
+                        filesU.WriteLine($"A/B = AB^-1 = \n{matrixC}");
+                    } catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
+
                 }
                 catch (Exception e) {
                     Console.WriteLine(e.Message);
+                    try {
+                        filesU.WriteLine("Ocurrió un ERROR durante la DIVISIÓN entre matrices.");
+                        filesU.WriteLine(e.Message);
+                    } catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
                 finally {
+                    try {
+                        filesU.WriteLine("----------------------------------------------------------");
+                    } catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
                     Console.WriteLine("\n\t¿Desea realizar otra división de matrices? [y/n]: ");
                     continueP = Console.ReadKey().KeyChar;
                 }
